@@ -30,7 +30,7 @@ router.post('/history', async (req, res) => {
 
 // TODO: GET search history
 // get all saved cities from searchHistory.json
-router.get('/history', async (req, res) => {
+router.get('/history', async (_req, res) => {
   const cities = await HistoryService.getCities();
   res.json(cities);
 });

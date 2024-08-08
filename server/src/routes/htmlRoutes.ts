@@ -11,7 +11,7 @@ const router = Router();
 // * switch _req to req if needed
 
 router.get('/', (_req, res) => {
-  res.sendFile(path.join(__dirname, '../../public/index.html'));
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
 
 export default router;

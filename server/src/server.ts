@@ -1,13 +1,12 @@
 import dotenv from 'dotenv';
-import express from 'express';
 dotenv.config();
-
-// Import the routes
+import express from 'express';
 import routes from './routes/index.js';
 
 const app = express();
-
 const PORT = process.env.PORT || 3001;
+
+app.use(routes);
 
 // TODO: Serve static files of entire client dist folder
 // express.static() is a built-in express middleware function that serves static files
