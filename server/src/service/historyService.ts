@@ -11,55 +11,42 @@ class City {
 }
 
 // TODO: Complete the HistoryService class
-// HistoryService should have methods to read, write, get, add, and remove cities from the searchHistory.json file
 // TODO: Define a read method that reads from the searchHistory.json file
-// private async read() {}
 // TODO: Define a write method that writes the updated cities array to the searchHistory.json file
-// private async write(cities: City[]) {}
+// TODO Define an addCity method that adds a city to the searchHistory.json file
+//define a getCities method that returns the cities array
+
 class HistoryService {
-  private searchHistory: City[] = [];
-  private filePath: string;
-
-  constructor(filePath: string) {
-    this.filePath = filePath;
-    this.loadHistory();
+  constructor(private searchHistoryFile = 'searchHistory.json') {
+    this.searchHistoryFile = searchHistoryFile;
   }
 
-  private loadHistory() {
-    if (fs.existsSync(this.filePath)) {
-      const data = fs.readFileSync(this.filePath, 'utf8');
-      this.searchHistory = JSON.parse(data);
-    }
+  read(): City[] {
+    const cities = JSON.parse(fs.readFileSync(this.searchHistoryFile, 'utf8'));
+    return cities;
   }
 
-  private saveHistory() {
-    const data = JSON.stringify(this.searchHistory);
-    fs.writeFileSync(this.filePath, data);
+  write(cities: City[]): void {
+    fs.writeFileSync(this.searchHistoryFile, JSON.stringify(cities));
   }
 
-  public addSearch(city: string) {
-    const newCity = new City(city);
-    this.searchHistory.push(newCity);
-    this.saveHistory();
+  addCity(cityName: string): City {
+    const cities = this.read();
+    const newCity = new City(cityName);
+    cities.push(newCity);
+    this.write(cities);
+    return newCity;
   }
 
-  async getCities() {
-    return this.searchHistory;
+  removeCity(id: string): void {
+    const cities = this.read();
+    const updatedCities = cities.filter(city => city.id !== id);
+    this.write(updatedCities);
   }
 
-  async removeCity(id: string) {
-    this.searchHistory = this.searchHistory.filter(city => city.id !== id);
-    this.saveHistory();
+  getCities(): City[] {
+    return this.read();
   }
-}
-
-export default new HistoryService('searchHistory.json');
-
-  // TODO Define an addCity method that adds a city to the searchHistory.json file
-
-  //add uuid
-  //get all cities, add the new city, and write the updated cities to the searchHistory.json file, then return the new city
-
 
   // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file
   // async removeCity(id: string) {}
@@ -67,3 +54,9 @@ export default new HistoryService('searchHistory.json');
   // use the uuid to filter out the city from the cities array
 
   //remove the city from the cities array
+
+
+}
+
+export default new HistoryService();
+

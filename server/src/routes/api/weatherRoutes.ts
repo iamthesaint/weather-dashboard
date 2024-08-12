@@ -10,7 +10,7 @@ import WeatherService from '../../service/weatherService.js';
 // req.body.city
 // localhost:3001/api/weather
 
-router.post('/weather/', async (req, res) => {
+router.post('/', async (req, res) => {
   const cityName = req.body.cityName; //access the city from the request body of the POST request via req.body
   const weatherData = await WeatherService.getWeatherForCity(cityName);
   res.json(weatherData);
@@ -19,7 +19,7 @@ router.post('/weather/', async (req, res) => {
 // TODO: GET weather data from city name
 // req.params.city
 // localhost:3001/api/weather/:city
-router.get('/weather/:city', async (req, res) => {
+router.get('/:city', async (req, res) => {
   const cityName = req.params.city; //access the city from the request body of the POST request
   const weatherData = await WeatherService.getWeatherForCity(cityName);
   res.json(weatherData);
