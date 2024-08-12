@@ -18,18 +18,18 @@ router.post('/', async (req, res) => {
 
 // TODO: GET weather data from city name
 // req.params.city
-// localhost:3001/api/weather/:city
+// localhost:3001/api/weather/:city 
+
 router.get('/:city', async (req, res) => {
-  const cityName = req.params.city; //access the city from the request body of the POST request
+  const cityName = req.params.city;
   const weatherData = await WeatherService.getWeatherForCity(cityName);
   res.json(weatherData);
-}
-);
+});
 
 // TODO: save city to search history
 // req.body.city
 // localhost:3001/api/weather/history
-router.post('/history/', async (req, res) => {
+router.post('/history', async (req, res) => {
   const cityName = req.body.cityName;
   const weatherData = await WeatherService.getWeatherForCity(cityName);
   res.json(weatherData);
@@ -38,8 +38,8 @@ router.post('/history/', async (req, res) => {
 // TODO: GET search history
 // get all saved cities from searchHistory.json
 // localhost:3001/api/weather/history
-router.get('/history/', async (_req, res) => {
-  const cities = await HistoryService.getCities();
+router.get('/history', async (_req, res) => {
+  const cities = HistoryService.getCities();
   res.json(cities);
 });
 
