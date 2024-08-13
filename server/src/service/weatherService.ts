@@ -114,6 +114,7 @@ class WeatherService {
     const currentWeather = new Weather(cityName, date.toString(), icon, iconDescription, temp, windSpeed, humidity);
     return currentWeather;
   }
+  
 
   // TODO: Complete buildForecastArray method
   // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
@@ -124,6 +125,22 @@ class WeatherService {
 
     for (const data of weatherData) {
       const date = data.dt_txt.split(' ')[0]; //takes date from string
+      if (!daysAdded.has(date) && date !== currentWeather.date) { //starts forecast from the next day
+        const cityName = currentWeather.city;
+        const { icon, description: iconDescription } = data.weather[0];
+        const tempK = data.main.temp; // temperature in Kelvin
+        const temp = Math.round((tempK - 273.15) * 9/5 + 32);
+        console.log('Temp:', temp);
+        const { humidity } = data.main;
+        const { speed: windSpeed } = data.wind;
+        
+        forecast.push(new Weather(cityName, date, icon, iconDescription, temp, windSpeed, humidity));
+        daysAdded.add(date);
+
+        if (forecast.length === 5) {
+          break;
+        }
+      }
       console.log('Date:', date);
       if (!daysAdded.has(date)) {
         const cityName = currentWeather.city;

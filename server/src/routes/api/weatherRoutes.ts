@@ -16,17 +16,19 @@ router.get('/history', async (_req, res) => {
 // req.body.city
 // localhost:3001/api/weather/history
 router.post('/history', async (req, res) => {
-  const { name } = req.body;
-  if (!name) {
+  const { cityName } = req.body;
+  if (!cityName) {
     res.status(400).json({ message: 'City name is required' });
     return;
   }
-  try { await HistoryService.addCity(name);
-  res.status(200).send({ message: 'City has been added to your search history.' });
-} catch (error) {
-  res.status(500).json({ message: 'Internal server error' });
-}
+  try { await HistoryService.addCity(cityName); }
+  catch (error: any) {
+    res.status(500).json({ message: error.message });
+    return;
+  }
+  res.json({ message: 'City has been added to your search history.' });
 });
+
 
 // * BONUS TODO: DELETE city from search history
 // req.params.id
