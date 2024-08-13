@@ -4,29 +4,25 @@ const router = Router();
 import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
 
+// TODO: save city to search history
+// req.body.city
+router.post('/history', async (req, res) => {
+ 
+  const cityName = req.body.city;
+  try {
+    await HistoryService.addCity(cityName);
+    res.json({ message: 'City has been added to your search history.' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // TODO: GET search history
 // get all saved cities from searchHistory.json
 // localhost:3001/api/weather/history
 router.get('/history', async (_req, res) => {
-  const cities = HistoryService.getCities();
+  const cities = await HistoryService.getCities();
   res.json(cities);
-});
-
-// TODO: save city to search history
-// req.body.city
-// localhost:3001/api/weather/history
-router.post('/history', async (req, res) => {
-  const { cityName } = req.body;
-  if (!cityName) {
-    res.status(400).json({ message: 'City name is required' });
-    return;
-  }
-  try { await HistoryService.addCity(cityName); }
-  catch (error: any) {
-    res.status(500).json({ message: error.message });
-    return;
-  }
-  res.json({ message: 'City has been added to your search history.' });
 });
 
 
@@ -34,9 +30,14 @@ router.post('/history', async (req, res) => {
 // req.params.id
 // localhost:3001/api/weather/history/:id
 router.delete('/history/:id', async (req, res) => {
-  const id = req.params.id;
-  HistoryService.removeCity(id);
-  res.json({ message: 'This city has been deleted from your search history.' });
+
+  const cityId = req.params.id;
+  try {
+    await HistoryService.removeCity(cityId);
+    res.json({ message: 'City has been removed from your search history.' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 
