@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import fs from 'fs';
+import * as fs from 'fs';
 
 // TODO: Define a City class with name and id properties
 // id properties should be unique to each city - use uuid
@@ -7,7 +7,8 @@ import fs from 'fs';
 class City {
   constructor(
     public name: string,
-    public id: string = uuidv4()) { }
+    public id: string = uuidv4()
+  ) {}
 }
 
 // TODO: Complete the HistoryService class
@@ -17,36 +18,57 @@ class City {
 //define a getCities method that returns the cities array
 
 class HistoryService {
-  constructor(private searchHistoryFile = 'searchHistory.json') {
-    this.searchHistoryFile = searchHistoryFile;
+  private searchHistoryFile: string;
+
+  constructor() {
+    this.searchHistoryFile = 'searchHistory.json';
   }
 
-  read(): City[] {
-    const cities = JSON.parse(fs.readFileSync(this.searchHistoryFile, 'utf8'));
-    return cities;
+  private async read(): Promise<City[]> {
+    return new Promise((resolve, reject) => {
+      fs.readFile(this.searchHistoryFile, 'utf8', (err, data) => {
+        if (err) {
+          if (err.code === 'ENOENT') {
+            resolve([]);
+          } else {
+            reject(err);
+          }
+        } else {
+          resolve(JSON.parse(data));
+        }
+      });
+    });
   }
 
-  write(cities: City[]): void {
-    fs.writeFileSync(this.searchHistoryFile, JSON.stringify(cities));
+  private async write(cities: City[]): Promise<void> {
+    return new Promise((resolve, reject) => {
+      fs.writeFile(this.searchHistoryFile, JSON.stringify(cities, null, 2), 'utf8', (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
   }
 
-  addCity(cityName: string): City {
-    const cities = this.read();
-    const newCity = new City(cityName);
+  public async addCity(name: string): Promise<void> {
+    const cities = await this.read();
+    const newCity = new City(name);
     cities.push(newCity);
-    this.write(cities);
-    return newCity;
+    await this.write(cities);
   }
 
-  removeCity(id: string): void {
+  public async getCities(): Promise<City[]> {
+    return this.read();
+  }
+
+  public async removeCity(id: string): Promise<void> {
     const cities = this.read();
-    const updatedCities = cities.filter(city => city.id !== id);
+    const updatedCities = (await cities).filter(city => city.id !== id);
     this.write(updatedCities);
   }
 
-  getCities(): City[] {
-    return this.read();
-  }
 
   // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file
   // async removeCity(id: string) {}
@@ -58,5 +80,4 @@ class HistoryService {
 
 }
 
-export default new HistoryService();
-
+export default new HistoryService;
