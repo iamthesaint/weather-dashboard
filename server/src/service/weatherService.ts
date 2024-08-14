@@ -48,6 +48,7 @@ class WeatherService {
   // private async fetchLocationData(query: string) {}
   //fetch the location data using the query string
   private async fetchLocationData(query: string): Promise<any> {
+    console.log(query);
     const url = `${this.baseURL}/weather?q=${encodeURIComponent(query)}&appid=${this.apiKey}`;
     console.log('URL:', url);
     const response = await fetch(url);
@@ -166,6 +167,7 @@ class WeatherService {
   //get the current weather and 5 day forecast for the input city
 
   static async getWeatherForCity(city: string): Promise<Weather[]> {
+    console.log(city);
     const weatherService = new WeatherService(city);
     const locationData = await weatherService.fetchLocationData(city);
     const coordinates = weatherService.destructureLocationData(locationData);

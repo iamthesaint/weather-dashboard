@@ -1,18 +1,29 @@
 import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
-import path from 'path';
 
-interface City {
-  id: string;
-  name: string;
+class City {
+  id: string = '';
+  name: string = '';
 }
 
 class HistoryService {
-  private filePath = path.join('searchHistory.json');
+  private filePath = 'db/searchHistory.json';
+
+    //get all cities from searchHistory.json to display on the front end 
+    public async getCities(): Promise<City[]> {
+      try {
+        return await this.read();
+      }
+      catch (err) {
+        console.error('Error getting cities:', err);
+        return [];
+      }
+    }
 
   // Read searchHistory.json to see if the city is already in the search history
   async read(): Promise<City[]> {
     try {
+      console.log(process.cwd());
       if (!fs.existsSync(this.filePath)) {
         await fs.promises.writeFile(this.filePath, JSON.stringify([]));
       }
@@ -40,17 +51,6 @@ class HistoryService {
       }
     } catch (err) {
       console.error('Error adding city:', err);
-    }
-  }
-
-  //get all cities from searchHistory.json to display on the front end 
-  public async getCities(): Promise<City[]> {
-    try {
-      return await this.read();
-    }
-    catch (err) {
-      console.error('Error getting cities:', err);
-      return [];
     }
   }
 
