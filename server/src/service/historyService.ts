@@ -9,16 +9,16 @@ class City {
 class HistoryService {
   private filePath = 'db/searchHistory.json';
 
-    //get all cities from searchHistory.json to display on the front end 
-    public async getCities(): Promise<City[]> {
-      try {
-        return await this.read();
-      }
-      catch (err) {
-        console.error('Error getting cities:', err);
-        return [];
-      }
+  //get all cities from searchHistory.json to display on the front end 
+  public async getCities(): Promise<City[]> {
+    try {
+      return await this.read();
     }
+    catch (err) {
+      console.error('Error getting cities:', err);
+      return [];
+    }
+  }
 
   // Read searchHistory.json to see if the city is already in the search history
   async read(): Promise<City[]> {

@@ -27,7 +27,7 @@ class Weather {
 // TODO: Complete the WeatherService class
 class WeatherService {
   private baseURL = process.env.API_BASE_URL || '';
-  private apiKey = process.env.API_KEY || '';  
+  private apiKey = process.env.API_KEY || '';
   private cityName: string; //city name to search for
 
   constructor(cityName: string) {
@@ -56,7 +56,7 @@ class WeatherService {
     if (!response.ok) {
       throw new Error(`Error fetching location data: ${response.status} ${response.statusText}`);
     }
-    
+
     const data = await response.json();
     return data;
   }
@@ -66,10 +66,10 @@ class WeatherService {
   //destructure the location data to get the lat and lon properties
 
   private destructureLocationData(response: any): Coordinates {
-      const { coord: { lat, lon } } = response;
-      console.log(`Latitude: ${lat}, Longitude: ${lon}`);
-      return { lat, lon };
-    } 
+    const { coord: { lat, lon } } = response;
+    console.log(`Latitude: ${lat}, Longitude: ${lon}`);
+    return { lat, lon };
+  }
 
   // TODO: Create buildWeatherQuery method
   // private buildWeatherQuery(coordinates: Coordinates): string {}
@@ -105,9 +105,9 @@ class WeatherService {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-  }); // format the date    console.log('Date:', date);
+    }); // format the date    console.log('Date:', date);
     const tempK = response.list[0].main.temp; //temperature in Kelvin
-    const temp = Math.round((tempK - 273.15) * 9/5 + 32);
+    const temp = Math.round((tempK - 273.15) * 9 / 5 + 32);
     const icon = response.list[0].weather[0].icon;
     const iconDescription = response.list[0].weather[0].description;
     const windSpeed = response.list[0].wind.speed;
@@ -115,7 +115,7 @@ class WeatherService {
     const currentWeather = new Weather(cityName, date.toString(), icon, iconDescription, temp, windSpeed, humidity);
     return currentWeather;
   }
-  
+
 
   // TODO: Complete buildForecastArray method
   // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
@@ -130,11 +130,11 @@ class WeatherService {
         const cityName = currentWeather.city;
         const { icon, description: iconDescription } = data.weather[0];
         const tempK = data.main.temp; // temperature in Kelvin
-        const temp = Math.round((tempK - 273.15) * 9/5 + 32);
+        const temp = Math.round((tempK - 273.15) * 9 / 5 + 32);
         console.log('Temp:', temp);
         const { humidity } = data.main;
         const { speed: windSpeed } = data.wind;
-        
+
         forecast.push(new Weather(cityName, date, icon, iconDescription, temp, windSpeed, humidity));
         daysAdded.add(date);
 
@@ -147,11 +147,11 @@ class WeatherService {
         const cityName = currentWeather.city;
         const { icon, description: iconDescription } = data.weather[0];
         const tempK = data.main.temp; // temperature in Kelvin
-        const temp = Math.round((tempK - 273.15) * 9/5 + 32);
+        const temp = Math.round((tempK - 273.15) * 9 / 5 + 32);
         console.log('Temp:', temp);
         const { humidity } = data.main;
         const { speed: windSpeed } = data.wind;
-        
+
         forecast.push(new Weather(cityName, date, icon, iconDescription, temp, windSpeed, humidity));
         daysAdded.add(date);
 
