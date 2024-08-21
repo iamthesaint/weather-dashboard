@@ -3,6 +3,7 @@
 
 ## Description
 Weather Dashboard uses the OpenWeatherMap API to provide the current weather + a 5-day forecast of a searched city.
+
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -16,6 +17,8 @@ Weather Dashboard uses the OpenWeatherMap API to provide the current weather + a
 
 ## Usage
 On the homepage enter your search by City Name. Current weather will be shown at the top while a 5-day forecast will populate underneath. Searched cities are saved until you decide to delete them.
+
+Deployed on Render: https://weather-dashboard-b6h3.onrender.com/
 
 ## License
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
