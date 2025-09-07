@@ -5,8 +5,6 @@ import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
 
 
-// TODO: save city to search history
-// TODO: GET search history
 // get all saved cities from searchHistory.json
 // localhost:3001/api/weather/history
 // GET /api/weather/history - Return all saved cities as JSON
@@ -15,7 +13,6 @@ router.get('/history', async (_req, res) => {
   res.json(cities);
 });
 
-// * BONUS TODO: DELETE city from search history
 // req.params.id
 // localhost:3001/api/weather/history/:id
 router.delete('/history/:id', async (req, res) => {
@@ -28,9 +25,6 @@ router.delete('/history/:id', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-// TODO: POST Request with city name to retrieve weather data
-// TODO: GET weather data from city name
 
 // req.body.city
 // localhost:3001/api/weather

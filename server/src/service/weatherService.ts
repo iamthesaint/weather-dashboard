@@ -3,14 +3,12 @@ import 'express';
 dotenv.config();
 import fetch from 'node-fetch';
 
-// TODO: Define an interface for the Coordinates object
 interface Coordinates {
   lat: number;
   lon: number;
 }
 
 
-// TODO: Define a class for the Weather object
 // properties: city, date, icon, description, temp, humidity, windSpeed
 class Weather {
   constructor(
@@ -24,7 +22,6 @@ class Weather {
   ) { }
 }
 
-// TODO: Complete the WeatherService class
 class WeatherService {
   private baseURL = process.env.API_BASE_URL || '';
   private apiKey = process.env.API_KEY || '';
@@ -44,7 +41,6 @@ class WeatherService {
     return this.cityName;
   }
 
-  // TODO: Create fetchLocationData method
   // private async fetchLocationData(query: string) {}
   //fetch the location data using the query string
   private async fetchLocationData(query: string): Promise<any> {
@@ -61,7 +57,6 @@ class WeatherService {
     return data;
   }
 
-  // TODO: Create destructureLocationData method
   // private destructureLocationData(response: any): Coordinates {}
   //destructure the location data to get the lat and lon properties
 
@@ -71,7 +66,6 @@ class WeatherService {
     return { lat, lon };
   }
 
-  // TODO: Create buildWeatherQuery method
   // private buildWeatherQuery(coordinates: Coordinates): string {}
   //use lat and lon to get 5 day weather forecast at https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API_key}
   private buildWeatherQuery(lat: number, lon: number): string {
@@ -80,7 +74,6 @@ class WeatherService {
     return `${baseURL}/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
   }
 
-  // TODO: Create fetchWeatherData method
   // private async fetchWeatherData(coordinates: Coordinates) {}
   private async fetchWeatherData(coordinates: Coordinates): Promise<any> {
     const { lat, lon } = coordinates;
@@ -94,7 +87,6 @@ class WeatherService {
   }
 
 
-  // TODO: Build parseCurrentWeather method
   // private parseCurrentWeather(response: any) {}
   //parse the current weather data from the response object and return a Weather object for the current weather
 
@@ -117,7 +109,6 @@ class WeatherService {
   }
 
 
-  // TODO: Complete buildForecastArray method
   // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
   //build a 5 day forecast array using the current weather and the weather data array from the response object and return an array of Weather objects
   private buildForecastArray(currentWeather: Weather, weatherData: any[]): Weather[] {
@@ -162,7 +153,6 @@ class WeatherService {
     }
     return forecast;
   }
-  // TODO: Complete getWeatherForCity method
   // static async getWeatherForCity(city: string): Promise<Weather[]> {}
   //get the current weather and 5 day forecast for the input city
 
